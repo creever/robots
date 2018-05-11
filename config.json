@@ -1,0 +1,162 @@
+{
+  "robots":[
+    {
+      "name": "Robot 1",
+      "serialNumber": "1111-1111-1111-1111",
+      "initialProducts": [
+        {
+          "name": "rim",
+          "className": "Rim",
+          "quantity": 1
+        },
+        {
+          "name": "tire",
+          "className": "Tire",
+          "quantity": 1
+        },
+        {
+          "name": "engine",
+          "className": "Engine",
+          "quantity": 10
+        }
+      ]
+    },
+    {
+      "name": "Robot 2",
+      "serialNumber": "2222-2222-2222-2222",
+      "initialProducts": [
+        {
+          "name": "engine",
+          "className": "Engine",
+          "quantity": 2
+        },
+        {
+          "name": "body",
+          "className": "Body",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "name": "Robot 3",
+      "serialNumber": "3333-3333-3333-3333",
+      "initialProducts": [
+        {
+          "name": "wheel",
+          "className": "Wheel",
+          "quantity": 10
+        },
+        {
+          "name": "engine",
+          "className": "Engine",
+          "quantity": 2
+        }
+      ]
+    }
+  ],
+  "phases" : [
+    {
+      "name": "PHASE_ONE",
+      "description": "Creating nice and string wheel for cars",
+      "input" : [
+        {
+          "name" : "rim",
+          "serialNumber" : "3333-3333-3333-3333",
+          "quantity": 1,
+          "className": "Rim"
+        },
+        {
+          "name" : "tire",
+          "serialNumber" : "3333-3333-3333-3333",
+          "quantity": 1,
+          "className": "Tire"
+        }
+      ],
+      "output" : [
+        {
+          "name" : "wheel",
+          "quantity": 1,
+          "className": "Wheel"
+        }
+      ],
+      "nextPhaseCondition" : [
+        {
+          "name" : "wheel",
+          "quantity": 4,
+          "className": "Wheel"
+        }
+      ]
+    },
+    {
+      "name": "PHASE_TWO",
+      "description": "Painting car-body",
+      "input" : [
+        {
+          "name" : "body",
+          "serialNumber" : "3333-3333-3333-3333",
+          "quantity": 1,
+          "className": "Body"
+        },
+        {
+          "name" : "paint",
+          "serialNumber" : "9999-9999-9999-9999",
+          "quantity": 2,
+          "className": "Paint"
+        }
+      ],
+      "output" : [
+        {
+          "name" : "painted-body",
+          "quantity": 1,
+          "className": "PaintedBody"
+        }
+      ],
+      "nextPhaseCondition" : [
+        {
+          "name" : "painted-body",
+          "serialNumber" : "3333-3333-3333-3333",
+          "quantity": 1,
+          "className": "PaintedBody"
+        }
+      ]
+    },
+    {
+      "name": "PHASE_THREE",
+      "description": "Assembling car",
+      "input" : [
+        {
+          "name" : "painted-body",
+          "serialNumber" : "3333-3333-3333-3333",
+          "quantity": 1,
+          "className": "PaintedBody"
+        },
+        {
+          "name" : "engine",
+          "serialNumber" : "9999-9999-9999-9999",
+          "quantity": 1,
+          "className": "Engine"
+        },
+        {
+          "name" : "wheel",
+          "serialNumber" : "9999-9999-9999-9999",
+          "quantity": 4,
+          "className": "Wheel"
+        }
+      ],
+      "output" : [
+        {
+          "name" : "car",
+          "quantity": 1,
+          "className": "Car"
+        }
+      ],
+      "nextPhaseCondition" : [
+        {
+          "name" : "car",
+          "quantity": 1,
+          "className": "Car"
+        }
+      ]
+    }
+  ]
+}
