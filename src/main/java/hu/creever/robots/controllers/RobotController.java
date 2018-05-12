@@ -98,7 +98,7 @@ public class RobotController extends BaseController {
          */
         this.config.getRobots().stream().peek(robot -> robot.setPhase(Phase.PHASE_ONE))
                 .forEach((Robot robot) -> {
-                    ScheduledFuture task = scheduler.scheduleAtFixedRate(robot.getProgram(), 0, this.getExecutionCheckPeriod(), TimeUnit.MILLISECONDS);
+                    ScheduledFuture task = scheduler.scheduleAtFixedRate(robot, 0, this.getExecutionCheckPeriod(), TimeUnit.MILLISECONDS);
                     robot.setThread(task);
                 });
 

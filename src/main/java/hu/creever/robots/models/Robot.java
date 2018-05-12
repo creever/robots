@@ -14,10 +14,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-public class Robot implements StatusListener {
+public class Robot implements Runnable, StatusListener {
 
     /*
      * Robot's name
@@ -102,7 +103,7 @@ public class Robot implements StatusListener {
     /*
     * Only one output supported
     */
-    public Supplier<Product> productSupplier = () -> {
+    public Function<Program, Product> productSupplier = (program) -> {
 
         if(!canBuild()) {
             this.onHold();
@@ -113,20 +114,9 @@ public class Robot implements StatusListener {
 
         // Remove products from the storage
         this.currentPhase.getInput().forEach((name, quantity) -> this.removeProductFromStorage.accept(name, quantity));
-
         Map.Entry<String,Integer> entry = this.currentPhase.getOutput().entrySet().iterator().next();
 
-        try {
-            Class productClass = Class.forName(Factory.getInstance().getProductFolder() + entry.getKey());
-            Product product = (Product) productClass.newInstance();
-            product.setName(entry.getKey());
-            this.onFinished();
-
-            return product;
-        } catch (Exception e) {
-            this.onFailure();
-            throw new WrongProductClassNameException(entry.getKey());
-        }
+        return program.run(entry.getKey());
     };
 
     private BiConsumer<String, Integer> removeProductFromStorage = (productName, quantity) -> IntStream.range(0,quantity).forEach(i -> this.productStorage.get(productName).remove(0));
@@ -200,5 +190,27 @@ public class Robot implements StatusListener {
 
     public String toString() {
         return "Name: " + this.name + ", SN: " + this.serialNumber + ", Actual Phase: " + this.currentPhase;
+    }
+
+    @Override
+    public void run() {
+
+        try {
+            Product product = this.productSupplier.apply(this.getProgram());
+
+            this.onFinished();
+
+            this.store(product);
+            Log.info("------------------------------------------------------------------------------------");
+            Log.info(product.getName() + " has been successfully Completed on " + this.getName() + " - Storage Quantity: " + this.getProductStorage().get(product.getClass().getSimpleName()).size());
+            Log.info("------------------------------------------------------------------------------------");
+        } catch (InsufficientProductException e) {
+            Log.info("Not enough product to build for " + getName() + " in phase " + this.getCurrentPhase().name());
+        } catch (WrongProductClassNameException e) {
+            Log.info("Wrong product class name " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

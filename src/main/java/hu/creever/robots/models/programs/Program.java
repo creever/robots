@@ -1,11 +1,12 @@
 package hu.creever.robots.models.programs;
 
 import hu.creever.robots.helpers.Log;
+import hu.creever.robots.models.Product;
 import hu.creever.robots.models.Robot;
 
-public abstract class Program implements Runnable {
+public abstract class Program {
 
-    protected Robot robot;
+    private Robot robot;
 
     public Robot getRobot() {
         return robot;
@@ -19,5 +20,7 @@ public abstract class Program implements Runnable {
     public void info() {
         Log.info(this.toString());
     }
+
+    public abstract Product run(String name);
 
 }
