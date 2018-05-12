@@ -82,7 +82,7 @@
       "nextPhaseCondition" : [
         {
           "name" : "wheel",
-          "quantity": 4,
+          "quantity": 12,
           "className": "Wheel"
         }
       ]
@@ -115,7 +115,7 @@
         {
           "name" : "painted-body",
           "serialNumber" : "3333-3333-3333-3333",
-          "quantity": 1,
+          "quantity": 3,
           "className": "PaintedBody"
         }
       ]
@@ -153,7 +153,7 @@
       "nextPhaseCondition" : [
         {
           "name" : "car",
-          "quantity": 1,
+          "quantity": 3,
           "className": "Car"
         }
       ]
